@@ -1,6 +1,7 @@
-<button mat-button>Test</button>
+<h2>Date range picker {{opened}}</h2>
 <mat-form-field>
-  <input matInput [matDatepicker]="picker" placeholder="Choose a date">
-  <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-  <mat-datepicker #picker></mat-datepicker>
+  <input matInput #range placeholder="Choose a date">
+  <input matInput style="display: none" (dateChange)="dateChange($event)" [matDatepicker]="picker" placeholder="Choose a date">
+  <mat-datepicker-toggle #pickerToggle matSuffix [for]="picker" (click)="opened = true"></mat-datepicker-toggle>
+  <mat-datepicker #picker [opened]="opened" (opened)="datePickerOpened($event)"></mat-datepicker>
 </mat-form-field>
