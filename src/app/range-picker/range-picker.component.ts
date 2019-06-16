@@ -1,6 +1,7 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
 import { fromEvent } from 'rxjs';
 import { map, merge, combineLatest, debounceTime, filter } from 'rxjs/operators';
+import { MatDatepicker } from '@angular/material/datepicker';
 
 @Component({
   selector: 'drp-range-picker',
@@ -9,16 +10,15 @@ import { map, merge, combineLatest, debounceTime, filter } from 'rxjs/operators'
 })
 export class RangePickerComponent implements OnInit {
 
-  // @ViewChild('range', {read: ElementRef}) range;
-  @ViewChild('picker') picker;
-  // @ViewChild('pickerToggle', {read: ElementRef}) pickerToggle;
-  opened: boolean = false;
-  value;
-
+  @ViewChild('startDate', {read: MatDatepicker}) startDate;
+  @ViewChild('endDate', {read: MatDatepicker}) endDate;
   ngAfterViewInit () {
-    console.log('ngAfterViewInit', this.picker)
+    console.log('ngAfterViewInit', this.startDate)
   }
   dateChange (e) {
+    debugger
+    console.log(this.startDate)
+    console.log(this.endDate)
     // this.range.nativeElement.value = e.value;
     // setTimeout(() => {
     //   // TODO: Don't close the popup
@@ -26,8 +26,18 @@ export class RangePickerComponent implements OnInit {
     // },1000)
   }
 
+  closedStream () {
+    debugger
+    console.log(this.startDate)
+    console.log(this.endDate)
+  }
+
   datePickerOpened () {
-    setTimeout(this.bindEvents)
+    debugger
+    console.log(this.startDate)
+    console.log(this.endDate)
+
+    // setTimeout(this.bindEvents)
   }
 
   ngOnInit () {
