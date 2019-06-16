@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { fromEvent } from 'rxjs';
 import { map, merge, combineLatest, debounceTime, filter } from 'rxjs/operators';
 
@@ -9,9 +9,9 @@ import { map, merge, combineLatest, debounceTime, filter } from 'rxjs/operators'
 })
 export class RangePickerComponent implements OnInit {
 
-  @ViewChild('range', {read: ElementRef}) range;
+  // @ViewChild('range', {read: ElementRef}) range;
   @ViewChild('picker') picker;
-  @ViewChild('pickerToggle', {read: ElementRef}) pickerToggle;
+  // @ViewChild('pickerToggle', {read: ElementRef}) pickerToggle;
   opened: boolean = false;
   value;
 
@@ -19,11 +19,11 @@ export class RangePickerComponent implements OnInit {
     console.log('ngAfterViewInit', this.picker)
   }
   dateChange (e) {
-    this.range.nativeElement.value = e.value;
-    setTimeout(() => {
-      // TODO: Don't close the popup
-      this.pickerToggle.nativeElement.click()
-    },1000)
+    // this.range.nativeElement.value = e.value;
+    // setTimeout(() => {
+    //   // TODO: Don't close the popup
+    //   this.pickerToggle.nativeElement.click()
+    // },1000)
   }
 
   datePickerOpened () {

@@ -1,6 +1,13 @@
-<mat-form-field>
-  <input matInput #range placeholder="Choose a date">
-  <input matInput style="display: none" (dateChange)="dateChange($event)" [matDatepicker]="picker" placeholder="Choose a date">
-  <mat-datepicker-toggle #pickerToggle matSuffix [for]="picker" (click)="opened = true"></mat-datepicker-toggle>
-  <mat-datepicker #picker [opened]="opened" (opened)="datePickerOpened($event)"></mat-datepicker>
-</mat-form-field>
+<div>
+  <mat-form-field>
+    <input matInput [matDatepicker]="startDate" placeholder="Choose a start date">
+    <mat-datepicker-toggle matSuffix [for]="startDate"></mat-datepicker-toggle>
+    <mat-datepicker #startDate></mat-datepicker>
+  </mat-form-field>
+  <mat-form-field>
+    <input matInput [matDatepicker]="endDate" placeholder="Choose a end date">
+    <mat-datepicker-toggle matSuffix [for]="endDate"></mat-datepicker-toggle>
+    <mat-datepicker #endDate></mat-datepicker>
+  </mat-form-field>
+</div>
+<!-- (opened)="datePickerOpened($event)" -->
