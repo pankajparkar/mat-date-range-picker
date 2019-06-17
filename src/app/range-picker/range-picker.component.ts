@@ -8,7 +8,6 @@ import {
   ControlValueAccessor,
 } from '@angular/forms';
 import {DateAdapter} from '@angular/material/core';
-import { MONTHS, HIGHTLIGHT_COLOR } from '../helpers/constants';
 
 export const DEFAULT_VALUE_ACCESSOR: any = {
   provide: NG_VALUE_ACCESSOR,
