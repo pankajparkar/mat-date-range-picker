@@ -30,6 +30,7 @@ export class RangePickerComponent implements ControlValueAccessor, OnInit {
   startAt = new Date();
   endAt;
   onChange: any;
+  onTouch: any;
 
   constructor(
     private fb: FormBuilder,
@@ -40,17 +41,21 @@ export class RangePickerComponent implements ControlValueAccessor, OnInit {
   registerOnChange(fn) {
     this.onChange = fn;
   }
-  registerOnTouched(fn) {}
+  registerOnTouched(fn) {
+    this.onTouch = fn;
+  }
 
   selectStartDate(date) {
     const startDate = this.dateRange.controls['startDate'];
     startDate.setValue(date);
     this.dateRange.get('startDate').enable();
+    this.onChange();
   }
 
   selectEndDate(date) {
     const endDate = this.dateRange.controls['endDate'];
     endDate.setValue(date);
+    this.onChange();
   }
 
   performSelection(month, expression) {
@@ -63,24 +68,25 @@ export class RangePickerComponent implements ControlValueAccessor, OnInit {
     // TODO: refactor below
     const endDate = this.dateRange.controls['endDate'],
       startDate = this.dateRange.controls['startDate'];
-    const [startMonthBody, endMonthBody] = Array.from(
+    const [startMonthCalendar, endMonthCalendar] = Array.from(
       document.querySelectorAll('.mat-calendar-body')
     );
     this.startDate.stateChanges.subscribe(_ =>
-      this.selectRangeForStartDate(startMonthBody, startDate)
+      this.selectRangeForStartDate(startMonthCalendar, startDate)
     );
     this.endDate.stateChanges.subscribe(_ =>
-      this.selectRangeForEndDate(endMonthBody, endDate)
+      this.selectRangeForEndDate(endMonthCalendar, endDate)
     );
-    this.selectRangeForStartDate(startMonthBody, startDate);
+    this.selectRangeForStartDate(startMonthCalendar, startDate);
   }
 
   openRangePicker() {
     this.open = true;
+    this.onTouch();
   }
 
-  private selectRangeForEndDate(endMonthBody: any, endDate) {
-    this.performSelection(endMonthBody, (cell: HTMLElement) => {
+  private selectRangeForEndDate(endMonthCalendar: any, endDate) {
+    this.performSelection(endMonthCalendar, (cell: HTMLElement) => {
       const endMonth = MONTHS[this.endDate.monthView._monthLabel];
       (endDate.value.getMonth() !== endMonth &&
         endDate.value.getMonth() > endMonth) ||
@@ -90,8 +96,8 @@ export class RangePickerComponent implements ControlValueAccessor, OnInit {
     });
   }
 
-  private selectRangeForStartDate(startMonthBody: any, startDate) {
-    this.performSelection(startMonthBody, (cell: HTMLElement) => {
+  private selectRangeForStartDate(startMonthCalendar: any, startDate) {
+    this.performSelection(startMonthCalendar, (cell: HTMLElement) => {
       const startMonth = MONTHS[this.startDate.monthView._monthLabel];
       (startDate.value.getMonth() !== startMonth &&
         startDate.value.getMonth() < startMonth) ||
