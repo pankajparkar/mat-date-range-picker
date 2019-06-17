@@ -3,6 +3,7 @@ import { fromEvent } from 'rxjs';
 import { map, merge, combineLatest, debounceTime, filter } from 'rxjs/operators';
 import { MatDatepicker } from '@angular/material/datepicker';
 import { FormGroup, FormBuilder, FormControl } from '@angular/forms';
+import { DateService } from '../date.service';
 
 @Component({
   selector: 'drp-range-picker',
@@ -14,37 +15,16 @@ export class RangePickerComponent implements OnInit {
   @ViewChild('startDate', {read: MatDatepicker}) startDate;
   @ViewChild('endDate', {read: MatDatepicker}) endDate;
   dateRange: FormGroup;
+  startAt = new Date();
+  endAt = this.dateService.addMonths(new Date(), 1)
 
-  constructor (private fb: FormBuilder) {}
+  constructor (private fb: FormBuilder, private dateService: DateService) {}
   ngAfterViewInit () {
     console.log('ngAfterViewInit', this.startDate)
   }
-  dateChange (e) {
-    debugger
-    console.log(this.startDate)
-    console.log(this.endDate)
-    // this.range.nativeElement.value = e.value;
-    // setTimeout(() => {
-    //   // TODO: Don't close the popup
-    //   this.pickerToggle.nativeElement.click()
-    // },1000)
-  }
-
-  closedStream () {
-    debugger
-    console.log(this.startDate)
-    console.log(this.endDate)
-  }
-
-  datePickerOpened () {
-    debugger
-    console.log(this.startDate)
-    console.log(this.endDate)
-
-    // setTimeout(this.bindEvents)
-  }
 
   ngOnInit () {
+    debugger
     this.dateRange = this.fb.group({
       startDate: new FormControl(),
       endDate: new FormControl()
