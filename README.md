@@ -27,3 +27,4 @@ Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protrac
 - Manage validation form
 - Error handling for start and end date
 - Keep datepicker open
+- Use directive for DOM Manipulation

@@ -7,8 +7,10 @@
     <input formControlName="endDate" matInput placeholder="Choose a end date" />
     <mat-icon matSuffix (click)="openRangePicker()">calendar_today</mat-icon>
   </mat-form-field>
-  <div class="custom-calander" *ngIf="open">
-    <mat-calendar cdkTrapFocus 
+  <div class="custom-calander" *ngIf="open" drpHighlightRange 
+    [startDate]="dateRange.get('startDate')" [endDate]="dateRange.get('endDate')"
+    [startDateCalendar]="startDate" [endDateCalendar]="endDate">
+    <mat-calendar cdkTrapFocus
       #startDate
       [startAt]="startAt"
       [selected]="dateRange.get('startDate')?.value"
@@ -19,8 +21,7 @@
       [startAt]="endAt"
       [minDate]="endAt"
       [selected]="dateRange.get('endDate')?.value"
-      (selectedChange)="selectEndDate($event)"
-      (_userSelection)="close()">
+      (selectedChange)="selectEndDate($event)">
     </mat-calendar>
   </div>
 </fieldset>
