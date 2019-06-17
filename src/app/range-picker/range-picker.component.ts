@@ -29,15 +29,19 @@ export class RangePickerComponent implements ControlValueAccessor, OnInit {
   open = false;
   startAt = new Date();
   endAt;
-  onChange: any;
-  onTouch: any;
+  onChange: any = () => {}
+  onTouch: any = () => {}
 
   constructor(
     private fb: FormBuilder,
     private dateAdapter: DateAdapter<Date>
   ) {}
 
-  writeValue(value) {}
+  writeValue(value) {
+    if (value) {
+      this.dateRange.patchValue(value)
+    }
+  }
   registerOnChange(fn) {
     this.onChange = fn;
   }
