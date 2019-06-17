@@ -7,12 +7,16 @@
   </mat-form-field>
   <div class="custom-calander">
     <mat-calendar cdkTrapFocus 
+      #startDate
       [startAt]="startAt"
-      (selectedChange)="select($event)"
+      [selected]="dateRange.get('startDate')?.value"
+      (selectedChange)="selectStartDate($event)"
       (_userSelection)="close()">
     </mat-calendar>
     <mat-calendar cdkTrapFocus
-      (selectedChange)="select($event)"
+      #endDate
+      [selected]="dateRange.get('endDate')?.value"
+      (selectedChange)="selectEndDate($event)"
       (_userSelection)="close()" 
       [startAt]="endAt">
     </mat-calendar>
