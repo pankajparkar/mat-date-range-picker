@@ -10,15 +10,15 @@
       #startDate
       [startAt]="startAt"
       [selected]="dateRange.get('startDate')?.value"
-      (selectedChange)="selectStartDate($event)"
-      (_userSelection)="close()">
+      (selectedChange)="selectStartDate($event)">
     </mat-calendar>
     <mat-calendar cdkTrapFocus
       #endDate
+      [startAt]="endAt"
+      [minDate]="endAt"
       [selected]="dateRange.get('endDate')?.value"
       (selectedChange)="selectEndDate($event)"
-      (_userSelection)="close()" 
-      [startAt]="endAt">
+      (_userSelection)="close()">
     </mat-calendar>
   </div>
 </fieldset>
