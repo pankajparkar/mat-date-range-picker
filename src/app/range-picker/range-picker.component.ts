@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
 import { fromEvent } from 'rxjs';
 import { map, merge, combineLatest, debounceTime, filter } from 'rxjs/operators';
 import { MatDatepicker } from '@angular/material/datepicker';
+import { FormGroup, FormBuilder, FormControl } from '@angular/forms';
 
 @Component({
   selector: 'drp-range-picker',
@@ -12,6 +13,9 @@ export class RangePickerComponent implements OnInit {
 
   @ViewChild('startDate', {read: MatDatepicker}) startDate;
   @ViewChild('endDate', {read: MatDatepicker}) endDate;
+  dateRange: FormGroup;
+
+  constructor (private fb: FormBuilder) {}
   ngAfterViewInit () {
     console.log('ngAfterViewInit', this.startDate)
   }
@@ -41,6 +45,10 @@ export class RangePickerComponent implements OnInit {
   }
 
   ngOnInit () {
+    this.dateRange = this.fb.group({
+      startDate: new FormControl(),
+      endDate: new FormControl()
+    })
   }
 
   bindEvents () {

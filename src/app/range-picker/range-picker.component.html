@@ -1,12 +1,12 @@
-<div>
+<fieldset [formGroup]="dateRange">
   <mat-form-field>
-    <input matInput [matDatepicker]="startDate" placeholder="Choose a start date" (dateChange)="dateChange($event)" />
+    <input formArrayName="startDate" matInput [matDatepicker]="startDate" placeholder="Choose a start date" (dateChange)="dateChange($event)" />
     <mat-datepicker-toggle matSuffix [for]="startDate"></mat-datepicker-toggle>
     <mat-datepicker (opened)="datePickerOpened($event)" (closedStream)="closedStream($event)" #startDate></mat-datepicker>
   </mat-form-field>
   <mat-form-field>
-    <input matInput [matDatepicker]="endDate" placeholder="Choose a end date" (dateChange)="dateChange($event)" />
+    <input formArrayName="endDate" matInput [matDatepicker]="endDate" placeholder="Choose a end date" (dateChange)="dateChange($event)" />
     <mat-datepicker-toggle matSuffix [for]="endDate"></mat-datepicker-toggle>
     <mat-datepicker (opened)="datePickerOpened($event)" (closedStream)="closedStream($event)" #endDate></mat-datepicker>
   </mat-form-field>
-</div>
+</fieldset>
