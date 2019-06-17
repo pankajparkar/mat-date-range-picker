@@ -1,7 +1,22 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { MatDatepicker, MatCalendar } from '@angular/material/datepicker';
+import { MatCalendar } from '@angular/material/datepicker';
 import { FormGroup, FormBuilder, FormControl } from '@angular/forms';
 import { DateAdapter } from '@angular/material/core';
+
+const MONTHS = {
+  JAN: 0,
+  FEB: 1,
+  MAR: 2,
+  APR: 3,
+  MAY: 4,
+  JUN: 5,
+  JUL: 6,
+  AUG: 7,
+  SEP: 8,
+  OCT: 9,
+  NOV: 10,
+  DEV: 11
+}
 
 @Component({
   selector: 'drp-range-picker',
@@ -37,20 +52,33 @@ export class RangePickerComponent implements OnInit {
     endDate.setValue(date);
   }
 
+  performSelection (month, expression) {
+    const cells = Array.from(month.querySelectorAll('.mat-calendar-body-cell'));
+    cells.forEach(expression)
+  }
+
   close () {
     // Fire selection vague DOM manipulation
-    const endDate = this.dateRange.controls['endDate'].value.getDate(),
-      startDate = this.dateRange.controls['startDate'].value.getDate();
-    console.log(this.startDate, this.endDate)
-    const [startMonth, endMonth] = Array.from(document.querySelectorAll('.mat-calendar-body'));
-    const startMonthCells = Array.from(startMonth.querySelectorAll('.mat-calendar-body-cell'));
-    const endMonthCells = Array.from(endMonth.querySelectorAll('.mat-calendar-body-cell'));
-    startMonthCells.forEach((cell: HTMLElement) => {
-      if (startDate <= cell.textContent) cell.style.background = 'red'
-    })
-    endMonthCells.forEach((cell: HTMLElement) => {
-      if (endDate >= cell.textContent) cell.style.background = 'red'
-    })
+    // TODO: refactor below
+    const endDate = this.dateRange.controls['endDate'],
+      startDate = this.dateRange.controls['startDate'];
+    const [startMonthBody, endMonthBody] = Array.from(document.querySelectorAll('.mat-calendar-body'));
+    this.startDate.stateChanges
+      .subscribe(_ => {
+        this.performSelection(startMonthBody, (cell: HTMLElement) => {
+          const startMonth = MONTHS[this.startDate.monthView._monthLabel];
+          (startDate.value.getMonth() !== startMonth && startDate.value.getMonth() < startMonth) || 
+          startDate.value.getDate() <= cell.textContent? cell.style.background = '#a988e4': cell.style.background = 'none';
+        })
+      });
+    this.endDate.stateChanges
+      .subscribe(_ => {
+        this.performSelection(endMonthBody, (cell: HTMLElement) => {
+          const endMonth = MONTHS[this.endDate.monthView._monthLabel];
+          (endDate.value.getMonth() !== endMonth && endDate.value.getMonth() > endMonth) || 
+          endDate.value.getDate() >= cell.textContent? cell.style.background = '#a988e4': cell.style.background = 'none';
+        })
+      });
   }
 
 }
