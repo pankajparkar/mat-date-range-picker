@@ -64,21 +64,25 @@ export class RangePickerComponent implements OnInit {
       startDate = this.dateRange.controls['startDate'];
     const [startMonthBody, endMonthBody] = Array.from(document.querySelectorAll('.mat-calendar-body'));
     this.startDate.stateChanges
-      .subscribe(_ => {
-        this.performSelection(startMonthBody, (cell: HTMLElement) => {
-          const startMonth = MONTHS[this.startDate.monthView._monthLabel];
-          (startDate.value.getMonth() !== startMonth && startDate.value.getMonth() < startMonth) || 
-          startDate.value.getDate() <= cell.textContent? cell.style.background = '#a988e4': cell.style.background = 'none';
-        })
-      });
+      .subscribe(_ => this.selectRangeForStartDate(startMonthBody, startDate));
     this.endDate.stateChanges
-      .subscribe(_ => {
-        this.performSelection(endMonthBody, (cell: HTMLElement) => {
-          const endMonth = MONTHS[this.endDate.monthView._monthLabel];
-          (endDate.value.getMonth() !== endMonth && endDate.value.getMonth() > endMonth) || 
-          endDate.value.getDate() >= cell.textContent? cell.style.background = '#a988e4': cell.style.background = 'none';
-        })
-      });
+      .subscribe(_ => this.selectRangeForEndDate(endMonthBody, endDate));
+    this.selectRangeForStartDate(startMonthBody, startDate);
   }
 
+  private selectRangeForEndDate(endMonthBody: any, endDate) {
+    this.performSelection(endMonthBody, (cell: HTMLElement) => {
+      const endMonth = MONTHS[this.endDate.monthView._monthLabel];
+      (endDate.value.getMonth() !== endMonth && endDate.value.getMonth() > endMonth) ||
+        endDate.value.getDate() >= cell.textContent ? cell.style.background = '#a988e4' : cell.style.background = 'none';
+    });
+  }
+
+  private selectRangeForStartDate(startMonthBody: any, startDate) {
+    this.performSelection(startMonthBody, (cell: HTMLElement) => {
+      const startMonth = MONTHS[this.startDate.monthView._monthLabel];
+      (startDate.value.getMonth() !== startMonth && startDate.value.getMonth() < startMonth) ||
+        startDate.value.getDate() <= cell.textContent ? cell.style.background = '#a988e4' : cell.style.background = 'none';
+    });
+  }
 }
