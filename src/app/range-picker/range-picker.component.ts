@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatCalendar } from '@angular/material/datepicker';
-import { FormGroup, FormBuilder, FormControl } from '@angular/forms';
+import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { DateAdapter } from '@angular/material/core';
 
 const MONTHS = {
@@ -28,6 +28,7 @@ export class RangePickerComponent implements OnInit {
   @ViewChild('startDate', {read: MatCalendar}) startDate;
   @ViewChild('endDate', {read: MatCalendar}) endDate;
   dateRange: FormGroup;
+  open = false
   startAt = new Date();
   endAt;
 
@@ -38,13 +39,17 @@ export class RangePickerComponent implements OnInit {
     this.endAt = new Date(endAt.getFullYear(), endAt.getMonth(), 1)
     this.dateRange = this.fb.group({
       startDate: new FormControl(),
-      endDate: new FormControl()
+      endDate: new FormControl({
+        value: null,
+        disabled: true
+      })
     })
   }
 
   selectStartDate(date) {
     const startDate = this.dateRange.controls['startDate']
     startDate.setValue(date);
+    this.dateRange.get('startDate').enable();
   }
 
   selectEndDate(date) {
@@ -68,6 +73,10 @@ export class RangePickerComponent implements OnInit {
     this.endDate.stateChanges
       .subscribe(_ => this.selectRangeForEndDate(endMonthBody, endDate));
     this.selectRangeForStartDate(startMonthBody, startDate);
+  }
+
+  openRangePicker () {
+    this.open = true;
   }
 
   private selectRangeForEndDate(endMonthBody: any, endDate) {

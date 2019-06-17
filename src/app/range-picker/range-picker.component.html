@@ -1,11 +1,13 @@
 <fieldset [formGroup]="dateRange">
   <mat-form-field>
     <input formControlName="startDate" matInput placeholder="Choose a start date" />
+    <mat-icon matSuffix (click)="openRangePicker()">calendar_today</mat-icon>
   </mat-form-field>
   <mat-form-field>
     <input formControlName="endDate" matInput placeholder="Choose a end date" />
+    <mat-icon matSuffix (click)="openRangePicker()">calendar_today</mat-icon>
   </mat-form-field>
-  <div class="custom-calander">
+  <div class="custom-calander" *ngIf="open">
     <mat-calendar cdkTrapFocus 
       #startDate
       [startAt]="startAt"
