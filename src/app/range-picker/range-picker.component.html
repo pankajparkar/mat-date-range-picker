@@ -6,15 +6,15 @@
     <input formControlName="endDate" matInput placeholder="Choose a end date" />
   </mat-form-field>
   <div class="custom-calander">
-    <!-- <mat-calendar cdkTrapFocus
+    <mat-calendar cdkTrapFocus 
       [startAt]="startAt"
-      [@fadeInCalendar]="'enter'"
-      (selectedChange)="datepicker._select($event)"
-      (_userSelection)="datepicker.close()">
-    </mat-calendar> -->
-    <mat-calendar cdkTrapFocus [startAt]="startAt">
+      (selectedChange)="select($event)"
+      (_userSelection)="close()">
     </mat-calendar>
-    <mat-calendar cdkTrapFocus [startAt]="endAt">
+    <mat-calendar cdkTrapFocus
+      (selectedChange)="select($event)"
+      (_userSelection)="close()" 
+      [startAt]="endAt">
     </mat-calendar>
   </div>
 </fieldset>
