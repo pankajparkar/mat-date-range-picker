@@ -1,4 +1,5 @@
 import { Directive, HostListener, Input, ElementRef } from '@angular/core';
+import { debounceTime } from 'rxjs/operators';
 import { MONTHS, HIGHTLIGHT_COLOR } from './helpers/constants';
 
 @Directive({
@@ -22,14 +23,17 @@ export class HighlightRangeDirective {
     // Delegation 
     if (target.className.indexOf('mat-calendar-body-cell') > -1 && this.startDate.value && this.endDate.value) {
       const [startMonthCalendar, endMonthCalendar] = Array.from(
-        document.querySelectorAll('.mat-calendar-body')
+        this.elRef.nativeElement.querySelectorAll('.mat-calendar-body')
       );
-      this.startDateCalendar.stateChanges.subscribe(_ =>
-        this.selectRangeForStartDate(startMonthCalendar, this.startDate)
-      );
-      this.endDateCalendar.stateChanges.subscribe(_ =>
-        this.selectRangeForEndDate(endMonthCalendar, this.endDate)
-      );
+      this.startDateCalendar.stateChanges
+        .pipe(debounceTime(100))
+        .subscribe(_ =>
+          this.selectRangeForStartDate(startMonthCalendar, this.startDate)
+        );
+      this.endDateCalendar.stateChanges
+        .pipe(debounceTime(100)).subscribe(_ =>
+          this.selectRangeForEndDate(endMonthCalendar, this.endDate)
+        );
       this.selectRangeForStartDate(startMonthCalendar, this.startDate);
       this.selectRangeForEndDate(endMonthCalendar, this.endDate);
     }
