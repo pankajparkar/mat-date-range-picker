@@ -22,20 +22,20 @@ export class HighlightRangeDirective {
   highlight ({target}) {
     // Delegation 
     if (target.className.indexOf('mat-calendar-body-cell') > -1 && this.startDate.value && this.endDate.value) {
-      const [startMonthCalendar, endMonthCalendar] = Array.from(
+      const calendars: any = Array.from(
         this.elRef.nativeElement.querySelectorAll('.mat-calendar-body')
       );
       this.startDateCalendar.stateChanges
         .pipe(debounceTime(100))
         .subscribe(_ =>
-          this.selectRangeForStartDate(startMonthCalendar, this.startDate)
+          this.selectRangeForStartDate(calendars, this.startDate, this.endDate)
         );
       this.endDateCalendar.stateChanges
         .pipe(debounceTime(100)).subscribe(_ =>
-          this.selectRangeForEndDate(endMonthCalendar, this.endDate)
+          this.selectRangeForEndDate(calendars, this.startDate, this.endDate)
         );
-      this.selectRangeForStartDate(startMonthCalendar, this.startDate);
-      this.selectRangeForEndDate(endMonthCalendar, this.endDate);
+      this.selectRangeForStartDate(calendars, this.startDate, this.endDate);
+      this.selectRangeForEndDate(calendars, this.startDate, this.endDate);
     }
   }
 
@@ -44,23 +44,23 @@ export class HighlightRangeDirective {
     cells.forEach(expression);
   }
 
-  private selectRangeForEndDate(endMonthCalendar, endDate) {
-    this.performSelection(endMonthCalendar, (cell: HTMLElement) => {
+  private selectRangeForStartDate([startMonthCalendar, endMonthCalendar], startDate, endDate) {
+    this.performSelection(startMonthCalendar, (cell: HTMLElement) => {
+      const startMonth = MONTHS[this.startDateCalendar.monthView._monthLabel];
       const endMonth = MONTHS[this.endDateCalendar.monthView._monthLabel];
-      (endDate.value.getMonth() !== endMonth &&
-        endDate.value.getMonth() > endMonth) ||
-      endDate.value.getDate() >= cell.textContent
+      const date = startDate.value, month = date.getMonth();
+      date.getDate() <= cell.textContent && date.getMonth() <= startMonth && endDate.value.getMonth() >= month
         ? (cell.style.background = HIGHTLIGHT_COLOR)
         : (cell.style.background = 'none');
     });
   }
 
-  private selectRangeForStartDate(startMonthCalendar, startDate) {
-    this.performSelection(startMonthCalendar, (cell: HTMLElement) => {
+  private selectRangeForEndDate([startMonthCalendar, endMonthCalendar], startDate, endDate) {
+    this.performSelection(endMonthCalendar, (cell: HTMLElement) => {
       const startMonth = MONTHS[this.startDateCalendar.monthView._monthLabel];
-      (startDate.value.getMonth() !== startMonth &&
-        startDate.value.getMonth() < startMonth) ||
-      startDate.value.getDate() <= cell.textContent
+      const endMonth = MONTHS[this.endDateCalendar.monthView._monthLabel];
+      const date = endDate.value, month = date.getMonth();
+      date.getDate() >= cell.textContent && date.getMonth() >= endMonth && startDate.value.getMonth() <= month
         ? (cell.style.background = HIGHTLIGHT_COLOR)
         : (cell.style.background = 'none');
     });
