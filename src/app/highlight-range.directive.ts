@@ -1,22 +1,21 @@
 import { Directive, HostListener, Input, ElementRef } from '@angular/core';
 import { MONTHS, HIGHTLIGHT_COLOR } from './helpers/constants';
-import { FormControl } from '@angular/forms';
 
 @Directive({
   selector: '[drpHighlightRange]'
 })
 export class HighlightRangeDirective {
 
+  @Input() startDate;
+  @Input() endDate;
+  @Input() startDateCalendar;
+  @Input() endDateCalendar;
+
   constructor(private elRef: ElementRef) { }
 
   ngOnInit () {
     console.log('Hurray')
   }
-
-  @Input() startDate: FormControl;
-  @Input() endDate: FormControl;
-  @Input() startDateCalendar;
-  @Input() endDateCalendar;
 
   @HostListener('click', ['$event'])
   highlight ({target}) {

@@ -1,5 +1,5 @@
-import {Component, OnInit, ViewChild, forwardRef} from '@angular/core';
-import {MatCalendar} from '@angular/material/datepicker';
+import {Component, OnInit, forwardRef, ViewChild} from '@angular/core';
+
 import {
   FormGroup,
   FormBuilder,
@@ -8,6 +8,7 @@ import {
   ControlValueAccessor,
 } from '@angular/forms';
 import {DateAdapter} from '@angular/material/core';
+import { MatCalendar } from '@angular/material/datepicker';
 
 export const DEFAULT_VALUE_ACCESSOR: any = {
   provide: NG_VALUE_ACCESSOR,
@@ -22,8 +23,10 @@ export const DEFAULT_VALUE_ACCESSOR: any = {
   providers: [DEFAULT_VALUE_ACCESSOR],
 })
 export class RangePickerComponent implements ControlValueAccessor, OnInit {
-  @ViewChild('startDate', {read: MatCalendar}) startDate;
-  @ViewChild('endDate', {read: MatCalendar}) endDate;
+
+  @ViewChild('startDateCalendar', {read: MatCalendar}) startDateCalendar;
+  @ViewChild('endDateCalendar', {read: MatCalendar}) endDateCalendar;
+
   dateRange: FormGroup;
   open = false;
   startAt = new Date();
@@ -51,7 +54,7 @@ export class RangePickerComponent implements ControlValueAccessor, OnInit {
   selectStartDate(date) {
     const startDate = this.dateRange.controls['startDate'];
     startDate.setValue(date);
-    this.dateRange.get('startDate').enable();
+    this.dateRange.get('endDate').enable();
     this.onChange();
   }
 
