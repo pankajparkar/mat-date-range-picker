@@ -64,9 +64,9 @@ export class RangePickerComponent implements ControlValueAccessor, OnInit {
     this.onChange();
   }
 
-  openRangePicker() {
-    this.open = true;
-    this.onTouch();
+  toggleDatepicker(isOpen = true) {
+    this.open = isOpen;
+    if(this.open) this.onTouch();
   }
 
   ngOnInit() {
