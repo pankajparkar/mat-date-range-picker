@@ -15,7 +15,6 @@ export class HighlightRangeDirective {
   constructor(private elRef: ElementRef) { }
 
   ngOnInit () {
-    console.log('Hurray')
   }
 
   @HostListener('click', ['$event'])
@@ -49,9 +48,8 @@ export class HighlightRangeDirective {
       const startMonth = MONTHS[this.startDateCalendar.monthView._monthLabel];
       const endMonth = MONTHS[this.endDateCalendar.monthView._monthLabel];
       const date = startDate.value, month = date.getMonth();
-      date.getDate() <= cell.textContent && date.getMonth() <= startMonth && endDate.value.getMonth() >= month
-        ? (cell.style.background = HIGHTLIGHT_COLOR)
-        : (cell.style.background = 'none');
+      const expression = date.getDate() <= cell.textContent && date.getMonth() <= startMonth && endDate.value.getMonth() >= month;
+      this.applyColor(cell, expression);
     });
   }
 
@@ -60,10 +58,14 @@ export class HighlightRangeDirective {
       const startMonth = MONTHS[this.startDateCalendar.monthView._monthLabel];
       const endMonth = MONTHS[this.endDateCalendar.monthView._monthLabel];
       const date = endDate.value, month = date.getMonth();
-      date.getDate() >= cell.textContent && date.getMonth() >= endMonth && startDate.value.getMonth() <= month
-        ? (cell.style.background = HIGHTLIGHT_COLOR)
-        : (cell.style.background = 'none');
+      const expression = date.getDate() >= cell.textContent && date.getMonth() >= endMonth && startDate.value.getMonth() <= month;
+      this.applyColor(cell, expression);
     });
+  }
+
+  applyColor (cell, condition) {
+    condition ? (cell.style.background = HIGHTLIGHT_COLOR)
+    : (cell.style.background = 'none');
   }
 
 }
